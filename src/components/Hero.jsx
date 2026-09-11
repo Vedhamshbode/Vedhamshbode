@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { profile } from "../data/profile";
 
 const container = {
@@ -41,14 +42,14 @@ export default function Hero() {
           {profile.tagline}
         </motion.p>
         <motion.div variants={item} className="mt-10 flex gap-4">
-          <a
-            href="#projects"
+          <Link
+            to="/projects"
             className="px-6 py-3 border border-copper text-copper-soft rounded-sm hover:bg-copper hover:text-ink transition-colors duration-300"
           >
             See the work
-          </a>
+          </Link>
           <a
-            href="#contact"
+            href="/#contact"
             className="px-6 py-3 text-ash hover:text-bone transition-colors duration-300"
           >
             Get in touch

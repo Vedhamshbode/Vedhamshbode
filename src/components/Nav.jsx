@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const links = [
-  { href: "#home", label: "Home" },
-  { href: "#projects", label: "Projects" },
-  { href: "#competitions", label: "Competitions" },
-  { href: "#blogs", label: "Blogs" },
-  { href: "#contact", label: "Contact" },
+  { to: "/", label: "Home" },
+  { to: "/projects", label: "Projects" },
+  { to: "/competitions", label: "Competitions" },
+  { to: "/blogs", label: "Blogs" },
 ];
 
 export default function Nav() {
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -26,24 +27,39 @@ export default function Nav() {
       }`}
     >
       <nav className="max-w-6xl mx-auto flex items-center justify-between px-6 sm:px-10 py-5">
-        <a
-          href="#home"
+        <Link
+          to="/"
           className="font-display text-lg text-bone tracking-wide"
         >
           {"</>"}
-        </a>
+        </Link>
 
         <ul className="hidden md:flex items-center gap-9">
           {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className="text-sm text-ash hover:text-copper-soft transition-colors duration-300"
+            <li key={l.to}>
+              <NavLink
+                to={l.to}
+                className={({ isActive }) =>
+                  `text-sm transition-colors duration-300 ${
+                    isActive ? "text-copper-soft" : "text-ash hover:text-copper-soft"
+                  }`
+                }
               >
                 {l.label}
-              </a>
+              </NavLink>
             </li>
           ))}
+
+          <li>
+            <a
+              href="/#contact"
+              className={`text-sm transition-colors duration-300 ${
+                location.pathname === "/" ? "text-ash hover:text-copper-soft" : "text-ash hover:text-copper-soft"
+              }`}
+            >
+              Contact
+            </a>
+          </li>
         </ul>
 
         <button
@@ -66,16 +82,28 @@ export default function Nav() {
             className="md:hidden flex flex-col gap-1 px-6 pb-6 bg-ink overflow-hidden"
           >
             {links.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
+              <li key={l.to}>
+                <NavLink
+                  to={l.to}
                   onClick={() => setOpen(false)}
-                  className="block py-2 text-ash hover:text-copper-soft"
+                  className={({ isActive }) =>
+                    `block py-2 ${isActive ? "text-copper-soft" : "text-ash hover:text-copper-soft"}`
+                  }
                 >
                   {l.label}
-                </a>
+                </NavLink>
               </li>
             ))}
+
+            <li>
+              <a
+                href="/#contact"
+                onClick={() => setOpen(false)}
+                className="block py-2 text-ash hover:text-copper-soft"
+              >
+                Contact
+              </a>
+            </li>
           </motion.ul>
         )}
       </AnimatePresence>
