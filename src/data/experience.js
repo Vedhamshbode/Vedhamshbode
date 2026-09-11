@@ -4,23 +4,13 @@
 
 export const experience = [
   {
-    company: "Company Robotics",
-    role: "Robotics Engineer",
-    period: "Jan 2025 — Present",
+    company: "Tata Consultancy Services Research",
+    role: "Robotics Researcher",
+    period: "Aug 2025 — Present",
   },
   {
-    company: "Company Robotics",
-    role: "Robotics Intern",
+    company: "Robotics and Intelligent Systems Laboratory, IIT Hyderabad",
+    role: "Research Intern",
     period: "May 2024 — Jul 2024",
-  },
-  {
-    company: "Research Lab",
-    role: "Student Researcher",
-    period: "Feb 2023 — Mar 2024",
-  },
-  {
-    company: "Robotics Club",
-    role: "Robotics Intern",
-    period: "May 2023 — Jul 2023",
   },
 ];

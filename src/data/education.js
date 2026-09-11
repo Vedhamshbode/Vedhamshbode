@@ -4,9 +4,9 @@
 
 export const education = [
   {
-    school: "Your University",
-    detail: "B.Tech in Electronics and Communication Engineering",
-    note: "Minor in Applied Computational Mathematics",
+    school: "Indian Institute of Technology, Bhilai",
+    detail: "Bachelor of Technology in Mechanical Engineering",
+    note: "CGPA: 8.11",
     years: "2021 – 2025",
     image:
       "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1000&auto=format&fit=crop",

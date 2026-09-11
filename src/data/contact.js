@@ -4,9 +4,9 @@
 
 export const contact = {
   formspreeEndpoint: "https://formspree.io/f/YOUR_FORM_ID",
-  email: "you@example.com",
+  email: "vedhamshbode@gmail.com",
   socials: [
-    { label: "GitHub", href: "https://github.com/yourusername" },
-    { label: "LinkedIn", href: "https://linkedin.com/in/yourusername" },
+    { label: "GitHub", href: "https://github.com/vedhamshbode" },
+    { label: "LinkedIn", href: "https://linkedin.com/in/vedhamshbode" },
   ],
 };

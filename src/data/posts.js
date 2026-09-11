@@ -26,103 +26,103 @@
 
 export const posts = [
   {
-    id: "debugging-motor-controller-midnight",
-    title: "What I learned debugging a motor controller at midnight",
+    id: "benchmarking-vla-models-for-real-world-robotics",
+    title: "Benchmarking VLA models for real-world robotics",
     date: "March 2026",
     cover:
       "https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=1400&auto=format&fit=crop",
-    coverAlt: "Embedded board and motor controller",
-    coverCaption: "The exact kind of test bench setup that exposes hidden edge cases.",
+    coverAlt: "Robotics workstation with sensors and compute hardware",
+    coverCaption: "Benchmarking matters only if the evaluation setup matches the real task constraints.",
     excerpt:
-      "A practical breakdown of the issue, the wrong assumptions, and the step-by-step checks that led to a stable fix.",
+      "Notes on measuring accuracy, inference speed, and deployment tradeoffs when testing Vision-Language-Action models on real robotic tasks.",
     body: [
       {
         type: "heading",
-        text: "Symptoms",
+        text: "Why benchmarking is harder than it sounds",
       },
       {
         type: "paragraph",
-        text: "The drive kept stuttering only under loaded turns. Straight-line tests looked clean, which made the issue easy to miss during quick checks.",
+        text: "Evaluating a Vision-Language-Action model on robotics tasks is not just about measuring raw inference speed. The real questions are whether the policy survives sensor noise, whether it tolerates imperfect actuation, and whether it can stay useful once wrapped inside a practical control stack.",
       },
       {
         type: "paragraph",
-        text: "At first I suspected noisy encoder readings, but logs showed timing jitter between command publication and controller update windows.",
+        text: "The most useful benchmark setups are the ones that force models through the same friction they will see later: variable lighting, repeated resets, action latency, and task completion pressure.",
       },
       {
         type: "subheading",
-        text: "The first two wrong turns",
+        text: "What I pay attention to",
       },
       {
         type: "list",
         items: [
-          "Over-tuned PID gains to hide jitter symptoms",
-          "Added filtering before validating scheduler timing",
-          "Tested only no-load scenarios for too long",
+          "Task success under repeated runs, not just one clean demo",
+          "Inference latency under the actual deployment architecture",
+          "Failure modes that appear only when perception and action loops are tightly coupled",
         ],
       },
       {
         type: "image",
         src: "https://images.unsplash.com/photo-1563770660941-20978e870e26?q=80&w=1400&auto=format&fit=crop",
-        alt: "Wiring and measurement probes on controller board",
-        caption: "Instrumenting the system revealed timing drift rather than sensor noise.",
+        alt: "Robotics testing setup with instrumentation",
+        caption: "The important numbers are the ones that remain meaningful after you move from notebooks to deployed systems.",
       },
       {
         type: "heading",
-        text: "Fix and validation",
+        text: "Why simulation still matters",
       },
       {
         type: "paragraph",
-        text: "I aligned publication timing with the controller cycle, reduced queue depth, and added guardrails for stale commands. After that, response became smooth under the same loaded turn profile.",
+        text: "Simulation is still essential, but only when it is used to shorten iteration cycles rather than to hide reality. The best workflow is using simulation to eliminate obvious design mistakes early, then carrying the same evaluation logic into real hardware tests.",
       },
       {
         type: "quote",
-        text: "The best late-night debugging rule: verify timing assumptions before tuning gains.",
+        text: "A robotics benchmark is only useful if it tells you something about the next deployment decision.",
       },
     ],
   },
   {
-    id: "notes-from-first-competition",
-    title: "Notes from my first competition",
+    id: "what-simulation-saved-me-in-robotics-projects",
+    title: "What simulation saved me in robotics projects",
     date: "January 2026",
     cover:
       "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=1400&auto=format&fit=crop",
-    coverAlt: "Team working on robotics assembly",
+    coverAlt: "Robotics team working between hardware and simulation",
     excerpt:
-      "How preparation discipline mattered more than flashy features, and what I would do differently in the next event.",
+      "A short reflection on how Isaac Sim, MuJoCo, and Gazebo reduced physical test time and made system integration less chaotic.",
     body: [
       {
         type: "heading",
-        text: "Before the event",
+        text: "The real value of simulation",
       },
       {
         type: "paragraph",
-        text: "The most useful work happened before travel day: checklists, spare-part mapping, and runbook notes for known failure modes.",
+        text: "Simulation helped most when it was used to answer specific engineering questions: will this planner recover, will this trajectory collide, and will the sensor arrangement even provide the information we think it does?",
       },
       {
         type: "subheading",
-        text: "What helped most on competition day",
+        text: "Where it saved time",
       },
       {
         type: "list",
         items: [
-          "A strict setup order for calibration",
-          "Role ownership during pit fixes",
-          "Short post-run debriefs after every attempt",
+          "Testing integration logic before hardware was available",
+          "Comparing planners and control strategies faster than physical reruns",
+          "Collecting structured data for later debugging and evaluation",
         ],
       },
       {
         type: "image",
         src: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1400&auto=format&fit=crop",
-        alt: "Team reviewing laptop diagnostics",
-        caption: "Debriefing immediately after each run kept improvements focused.",
+        alt: "Engineer reviewing simulation workflows on laptop",
+        caption: "Simulation paid off most when it stayed connected to real deployment constraints.",
       },
       {
         type: "heading",
-        text: "What I would change next time",
+        text: "The limit",
       },
       {
         type: "paragraph",
-        text: "I would budget more test time for transitions between tasks, not just isolated task success. Most lost points came from handoff mistakes, not core algorithm quality.",
+        text: "Simulation cannot replace the edge cases that appear on physical systems, but it can dramatically reduce wasted effort before those edge cases become expensive. The best results came when the simulated workflow and the real pipeline stayed structurally similar.",
       },
     ],
   },
