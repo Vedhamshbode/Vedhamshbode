@@ -6,14 +6,21 @@
 // To add one: copy a whole { ... } block, paste it as a new array item,
 // and edit the fields.
 
+//eyantra images
+import eyantra1 from "../assets/eyantra/det.jpg";
+import eyantra2 from "../assets/eyantra/eyantra_scene_setup.png";
+
+//robocup images
+import robocup1 from "../assets/robocup/bounding_box.jpg";
+import robocup2 from "../assets/robocup/robocup_arm_challenge_scene.png";
+
 export const competitions = [
   {
     id: "robocup-arm-challenge-2024",
     title: "RoboCup Arm Challenge - 2024",
     tagline: "Part of a top-6 global finalist team, contributing to object detection and computer vision for robotic arm tasks.",
     tags: ["Global Finalist", "Top 6", "Computer Vision"],
-    cover:
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1200&auto=format&fit=crop",
+    cover: robocup2,
     coverAlt: "Robotics team preparing hardware",
     description:
       "An international challenge centered on manipulation and perception performance for robotic arm tasks under competition constraints.",
@@ -38,15 +45,15 @@ export const competitions = [
     ],
     images: [
       {
-        src: "https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?q=80&w=1400&auto=format&fit=crop",
+        src: robocup1,
         alt: "Robot base and tools during preparation",
         caption: "Pit setup before qualification rounds.",
       },
-      {
-        src: "https://images.unsplash.com/photo-1535378620166-273708d44e4c?q=80&w=1400&auto=format&fit=crop",
-        alt: "Engineering students working around a robot",
-        caption: "Debugging and final tuning between attempts.",
-      },
+      // {
+      //   src: "https://images.unsplash.com/photo-1535378620166-273708d44e4c?q=80&w=1400&auto=format&fit=crop",
+      //   alt: "Engineering students working around a robot",
+      //   caption: "Debugging and final tuning between attempts.",
+      // },
     ],
     link: "",
   },
@@ -56,7 +63,7 @@ export const competitions = [
     tagline: "Semifinalist in a national robotics competition built around coordinated warehouse automation.",
     tags: ["Semifinalist", "Warehouse Robotics", "Manipulation + Navigation"],
     cover:
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1200&auto=format&fit=crop",
+      eyantra2,
     coverAlt: "Robotics components and sensors",
     description: "A competition project that coordinated a UR5 robotic arm and an autonomous mobile rover to complete package pick-and-drop tasks in a simulated warehouse.",
     highlights: [
@@ -80,7 +87,7 @@ export const competitions = [
     ],
     images: [
       {
-        src: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?q=80&w=1400&auto=format&fit=crop",
+        src: eyantra1,
         alt: "Robot and laptop during field test",
         caption: "Field test session for perception threshold tuning.",
       },

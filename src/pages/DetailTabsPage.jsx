@@ -46,14 +46,22 @@ function MediaGallery({ item }) {
 
   return (
     <div className="space-y-6">
-      {item.images.map((image, idx) => (
-        <figure key={`${item.id}-image-${idx}`} className="space-y-3">
-          <img
-            src={image.src}
-            alt={image.alt || ""}
-            className="w-full h-auto rounded-sm border border-copper-dim/35"
-          />
-          {image.caption && <figcaption className="text-sm text-ash/75">{image.caption}</figcaption>}
+      {item.images.map((media, idx) => (
+        <figure key={`${item.id}-media-${idx}`} className="space-y-3">
+          {media.type === "video" ? (
+            <video
+              src={media.src}
+              controls
+              className="w-full h-auto rounded-sm border border-copper-dim/35"
+            />
+          ) : (
+            <img
+              src={media.src}
+              alt={media.alt || ""}
+              className="w-full h-auto rounded-sm border border-copper-dim/35"
+            />
+          )}
+          {media.caption && <figcaption className="text-sm text-ash/75">{media.caption}</figcaption>}
         </figure>
       ))}
     </div>
@@ -114,7 +122,7 @@ export default function DetailTabsPage({ id, title, subtitle, items, emptyMessag
                   <img
                     src={activeItem.cover}
                     alt={activeItem.coverAlt || activeItem.title}
-                    className="w-full max-h-[28rem] object-cover"
+                    className="w-full max-h-[60rem] object-cover"
                   />
 
                   <div className="p-6 sm:p-9 space-y-8">

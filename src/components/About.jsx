@@ -40,7 +40,7 @@ export default function About() {
               <img
                 src={profile.aboutImage}
                 alt=""
-                className="w-full h-80 object-cover rounded-sm"
+                className="w-[300px] h-[300px] object-cover rounded-sm mx-auto"
               />
             </div>
           </motion.div>
@@ -58,7 +58,7 @@ export default function About() {
               <img
                 src={edu.image}
                 alt=""
-                className="w-full h-80 object-cover rounded-sm"
+                className="w-[300px] h-[300px] object-cover rounded-sm mx-auto"
               />
             </div>
           </motion.div>
