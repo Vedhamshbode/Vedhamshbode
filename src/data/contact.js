@@ -3,10 +3,10 @@
 // it takes about two minutes and is free for a portfolio's worth of traffic.
 
 export const contact = {
-  formspreeEndpoint: "https://formspree.io/f/YOUR_FORM_ID",
+  formspreeEndpoint: "https://formspree.io/f/xjyvqkgb",
   email: "vedhamshbode@gmail.com",
   socials: [
     { label: "GitHub", href: "https://github.com/vedhamshbode" },
-    { label: "LinkedIn", href: "https://linkedin.com/in/vedhamshbode" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/vedhamsh-bode-09a147229/" },
   ],
 };

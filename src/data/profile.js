@@ -12,7 +12,7 @@ export const profile = {
 
   // Full-bleed-ish image used near the top of the About block.
   aboutImage:
-    "https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=1000&auto=format&fit=crop",
+    "../assets/pp.png",
 
   // Each string in this array becomes its own paragraph.
   bio: [
