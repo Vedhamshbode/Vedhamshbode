@@ -27,35 +27,36 @@ export const projects = [
     id: "teleoperable-quadruped-robot",
     title: "Teleoperable Quadruped Robot",
     tagline: "A ROS2 quadruped platform with 3-DoF legs, gait generation, and teleoperated motion control.",
-    tags: ["ROS2", "C++", "Kinematics", "Gazebo", "ros2_control"],
+    tags: ["ROS2", "C++", "Inverse Kinematics", "Bezier Gaits", "ros2_control"],
     cover: quad1,
     coverAlt: "Quadruped robot hardware on a workbench",
     description:
-      "Designed and developed a teleoperable quadruped with analytical and numerical inverse kinematics, smooth gait planning, and parameterized stride control.",
+      "Built a 12-joint quadruped control pipeline in ROS2 with custom 3-DoF leg inverse kinematics, Bezier-based gait generation, per-leg trajectory controllers, and a serial hardware bridge for servo execution.",
     highlights: [
-      "Achieved 0.8 m/s trot speed",
-      "Reached 2.3 cm positioning accuracy",
-      "Implemented teleoperation for stride length, direction, and in-place rotation",
+      "Implemented analytical plus Jacobian-refined IK for each 3-DoF leg",
+      "Converted /cmd_vel body commands into per-leg foot velocities, headings, stride lengths, and gait frequency",
+      "Mapped 12 ROS2 joint commands to Arduino-driven PCA9685 servo outputs with calibration offsets",
     ],
     details: [
       {
-        heading: "System design",
+        heading: "Control stack",
         paragraphs: [
-          "This project focused on building a legged robot that could move reliably under teleoperation while still maintaining smooth, mathematically grounded gait behavior. The core challenge was balancing real-time control responsiveness with stable motion generation.",
-          "The robot uses 3-DoF legs and a ROS2-based control stack, allowing joint-level actuation and higher-level gait planning to coexist in a clean architecture.",
+          "The robot is organized around four independent ROS2 joint trajectory controllers, one for each leg, with a shared gait node coordinating synchronized commands across all 12 joints. That separation kept low-level actuation modular while still allowing whole-body gait timing to be controlled from one place.",
+          "I also implemented a ROS2 control hardware interface that gathers commanded joint positions, converts them from radians to degrees, orders them per leg, and transmits them as a compact serial packet to the onboard microcontroller.",
         ],
       },
       {
-        heading: "Motion planning and control",
+        heading: "Kinematics and gait generation",
         paragraphs: [
-          "I developed 3-DoF leg kinematics and combined analytical and numerical IK approaches to support accurate foot placement. For locomotion, I used optimized 6th-degree trajectories to produce smoother joint motion during trot cycles.",
-          "The teleoperation layer exposed stride length, direction, and turning controls, making the system flexible enough for both demonstration and experimental tuning.",
+          "I wrote the inverse kinematics solver in C++ for the 3-DoF leg chain. The solver starts from a closed-form branch selection, distinguishes left and right leg solutions, then refines the result numerically using forward kinematics, a Jacobian, and iterative updates until the foot reaches the requested Cartesian position.",
+          "For locomotion, I built a Bezier-based gait generator that plans swing trajectories from stride length, step height, and leg heading. The teleoperation pipeline converts body-frame velocity commands into per-leg tip velocities and directions, derives gait frequency from the most demanding leg, and then generates synchronized trot and rotation trajectories for all four legs.",
         ],
       },
       {
-        heading: "Outcome",
+        heading: "Embedded execution",
         paragraphs: [
-          "The resulting platform achieved a 0.8 m/s trot and 2.3 cm positioning accuracy while remaining controllable through a teleoperation interface inspired by research-driven gait parameterization.",
+          "On the firmware side, the Arduino decodes the 12-angle serial message and maps each joint to its PCA9685 servo channel with leg-specific sign inversions and offset tuning. That calibration was necessary because mirrored legs and servo mounting orientations could not share a single direct angle mapping.",
+          "The final execution path runs from /cmd_vel to footstep generation, to IK, to joint trajectories, to servo PWM output, and was exercised in Gazebo as well as on the physical robot.",
         ],
       },
     ],
@@ -119,28 +120,37 @@ export const projects = [
     id: "Autonomous-Mobile-Robot",
     title: "Autonomous Mobile Robot",
     tagline: "A differential-drive robot with self-localization, visual navigation, and autonomous docking using onboard sensors.",
-    tags: ["ROS2", "Navigation", "SLAM", "Arduino", "ESP32"],
+    tags: ["ROS2", "SLAM Toolbox", "Nav2", "OpenCV ArUco", "ros2_control"],
     cover:
       amr1,
     coverAlt: "Mobile robot electronics and sensor stack",
     description:
-      "Designed a localization and navigation pipeline for a differential-drive AMR and integrated visual docking based on ArUco markers.",
+      "Built a ROS2 AMR stack around a differential-drive base, combining xacro-based robot modeling, Gazebo ros2_control integration, SLAM and navigation bringup, marker-based perception, and a custom serial hardware layer.",
     highlights: [
-      "Built visual navigation and autonomous docking logic",
-      "Compared micro-ROS and rosserial for embedded communication",
-      "Integrated custom hardware interfaces with ROS 2 Control",
+      "Modeled the robot with lidar, camera, optical frame, wheel joints, and differential-drive control in Gazebo",
+      "Implemented ArUco pose estimation from /camera/image_raw and published marker transforms through tf2",
+      "Built a custom ROS2 hardware plugin that validates wheel interfaces and reads controller data over serial",
     ],
     details: [
       {
-        heading: "Architecture",
+        heading: "Robot model and navigation stack",
         paragraphs: [
-          "This system combined onboard sensing, embedded interfaces, and ROS2 navigation into a full-stack mobile robotics workflow. The base platform had to support both regular navigation and a more precise docking behavior near the base station.",
+          "I defined the robot in xacro with a differential-drive base, camera frame, optical frame, and lidar mounted on the chassis, then connected it to Gazebo through gazebo_ros2_control. The controller setup uses a diff_drive_controller and joint state broadcaster so the base can be driven and observed through standard ROS2 interfaces.",
+          "I also wired launch flows that spawn the robot into an ArUco-marked Gazebo world, start SLAM Toolbox, bring up navigation, and expose teleoperation so the full mapping and navigation loop could be tested together instead of as isolated nodes.",
         ],
       },
       {
-        heading: "Embedded integration",
+        heading: "Perception and docking",
         paragraphs: [
-          "I evaluated micro-ROS and rosserial for communication between embedded hardware and the higher-level ROS2 stack. The final setup used rosserial for better practical scalability in this system and connected motors, the IMU, and ultrasonic sensors through custom ROS 2 Control interfaces.",
+          "For visual localization near the docking station, I wrote an ArUco pose estimator that subscribes to /camera/image_raw, runs OpenCV ArUco detection using calibrated camera intrinsics, estimates rvec and tvec marker poses, converts the rotation matrix to quaternions, and publishes the marker frames through tf2.",
+          "That made the perception output immediately usable by the rest of the robotics stack, instead of ending at raw image-space detections, and supported marker-guided docking experiments in simulation.",
+        ],
+      },
+      {
+        heading: "Hardware interface",
+        paragraphs: [
+          "I implemented a custom ROS2 hardware interface in C++ for the base that checks each wheel exposes the expected velocity command and position/velocity state interfaces before activation. The plugin opens and configures the serial device manually, issues read requests to the controller board, and unpacks returned float data for wheel-state handling.",
+          "Alongside that, I added lightweight ROS-to-serial transmitter nodes in both C++ and Python plus Arduino-side serial handling, so the same control architecture could be exercised across simulation and hardware-facing workflows.",
         ],
       },
     ],

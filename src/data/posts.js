@@ -26,104 +26,143 @@
 
 export const posts = [
   {
-    id: "benchmarking-vla-models-for-real-world-robotics",
-    title: "Benchmarking VLA models for real-world robotics",
-    date: "March 2026",
+    id: "Why are VLA models still predicting positions rather than predicting planned trajectories",
+    title: "Why are VLA models still predicting positions rather than predicting planned trajectories",
+    date: "23 September 2026",
     cover:
       "https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=1400&auto=format&fit=crop",
     coverAlt: "Robotics workstation with sensors and compute hardware",
-    coverCaption: "Benchmarking matters only if the evaluation setup matches the real task constraints.",
+    coverCaption: "Evolving from modular classical control stacks to end-to-end continuous trajectory generation.",
     excerpt:
-      "Notes on measuring accuracy, inference speed, and deployment tradeoffs when testing Vision-Language-Action models on real robotic tasks.",
+      "A deep dive into why current VLA models still rely on classical motion planners, how diffusion policies and flow matching enable direct joint trajectory output, and how safety is guaranteed without a search planner.",
     body: [
       {
         type: "heading",
-        text: "Why benchmarking is harder than it sounds",
+        text: "The Classical Robotics Pipeline: Perception, Planning, and Control",
       },
       {
         type: "paragraph",
-        text: "Evaluating a Vision-Language-Action model on robotics tasks is not just about measuring raw inference speed. The real questions are whether the policy survives sensor noise, whether it tolerates imperfect actuation, and whether it can stay useful once wrapped inside a practical control stack.",
+        text: "Traditionally, robotic manipulation relied on a strictly decoupled, three-tier software stack. First, a perception module processed camera frames to estimate 3D object poses. Second, a motion planner (such as MoveIt, RRT*, or A*) calculated a collision-free path in joint space. Finally, a high-frequency low-level controller (running at 500 Hz – 1000 Hz) converted those waypoints into motor torques.",
       },
       {
         type: "paragraph",
-        text: "The most useful benchmark setups are the ones that force models through the same friction they will see later: variable lighting, repeated resets, action latency, and task completion pressure.",
+        text: "While this classical stack provided deterministic safety guarantees, it was fragile. Any slight error in object pose estimation or unexpected environmental change caused the entire planning chain to stall.",
+      },
+      {
+        type: "heading",
+        text: "The VLA Paradigm: Unifying Perception and Intent",
+      },
+      {
+        type: "paragraph",
+        text: "Vision-Language-Action (VLA) foundation models like RT-2, OpenVLA, and Octo transformed this pipeline by merging visual perception and semantic language understanding into a single transformer backbone. Instead of running separate object detectors, a VLA ingests camera frames and text commands (e.g., 'Pick up the red mug') to directly predict physical actions.",
+      },
+      {
+        type: "paragraph",
+        text: "However, a major bottleneck remains in how most current VLAs operate: they do not actually output motor movements or continuous trajectories. Instead, they output discrete target positions—typically Cartesian 6-DoF end-effector displacements (Δx, Δy, Δz, roll, pitch, yaw) at low inference frequencies (5 Hz – 10 Hz).",
       },
       {
         type: "subheading",
-        text: "What I pay attention to",
+        text: "Why motion planners stay stuck in the middle",
+      },
+      {
+        type: "paragraph",
+        text: "Because a 7-billion-parameter VLA cannot run fast enough to drive motor voltages directly, an intermediate motion planning layer is still required. The discrete position targets predicted by the VLA must be fed into an Inverse Kinematics (IK) solver and a path planner to generate joint trajectories that avoid self-collision before reaching the physical motors.",
+      },
+      {
+        type: "quote",
+        text: "Predicting isolated target positions keeps the safety net of classical kinematics, but it leaves the VLA trapped as a high-level goal generator rather than a true end-to-end policy.",
+      },
+      {
+        type: "heading",
+        text: "Bypassing the Planner: Direct Continuous Trajectory Generation",
+      },
+      {
+        type: "paragraph",
+        text: "The cutting edge of robotics is moving toward completely removing the motion planner from the software loop. Instead of predicting isolated poses, newer architectures directly generate dense, smooth, multi-step joint trajectories that stream straight to low-level motor PD controllers.",
       },
       {
         type: "list",
         items: [
-          "Task success under repeated runs, not just one clean demo",
-          "Inference latency under the actual deployment architecture",
-          "Failure modes that appear only when perception and action loops are tightly coupled",
+          "Diffusion Policies: Treat action prediction as an iterative denoising process, outputting continuous 16-to-64-step trajectory curves conditioned directly on visual observations.",
+          "Flow Matching (e.g., Physical Intelligence's Pi0): Uses continuous flow matching to generate dense 50-step joint angle sequences, completely bypassing Cartesian space and IK solvers.",
+          "Action Chunking with Transformers (ACT): Predicts multi-step joint chunks and uses Temporal Ensembling to dynamically smooth overlapping predictions into a fluid trajectory.",
         ],
       },
       {
         type: "image",
         src: "https://images.unsplash.com/photo-1563770660941-20978e870e26?q=80&w=1400&auto=format&fit=crop",
         alt: "Robotics testing setup with instrumentation",
-        caption: "The important numbers are the ones that remain meaningful after you move from notebooks to deployed systems.",
+        caption: "Direct trajectory generation bypasses motion planners by outputting smooth joint sequences straight to motor controllers.",
       },
       {
         type: "heading",
-        text: "Why simulation still matters",
+        text: "The Collision Problem: How to Stay Safe Without a Planner",
       },
       {
         type: "paragraph",
-        text: "Simulation is still essential, but only when it is used to shorten iteration cycles rather than to hide reality. The best workflow is using simulation to eliminate obvious design mistakes early, then carrying the same evaluation logic into real hardware tests.",
-      },
-      {
-        type: "quote",
-        text: "A robotics benchmark is only useful if it tells you something about the next deployment decision.",
-      },
-    ],
-  },
-  {
-    id: "what-simulation-saved-me-in-robotics-projects",
-    title: "What simulation saved me in robotics projects",
-    date: "January 2026",
-    cover:
-      "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=1400&auto=format&fit=crop",
-    coverAlt: "Robotics team working between hardware and simulation",
-    excerpt:
-      "A short reflection on how Isaac Sim, MuJoCo, and Gazebo reduced physical test time and made system integration less chaotic.",
-    body: [
-      {
-        type: "heading",
-        text: "The real value of simulation",
+        text: "Deleting the classical motion planner raises a critical issue: without an explicit path-finding algorithm like RRT*, how do you mathematically guarantee the robot won't collide with obstacles or itself?",
       },
       {
         type: "paragraph",
-        text: "Simulation helped most when it was used to answer specific engineering questions: will this planner recover, will this trajectory collide, and will the sensor arrangement even provide the information we think it does?",
-      },
-      {
-        type: "subheading",
-        text: "Where it saved time",
+        text: "Direct trajectory generation models solve collision avoidance through two complementary techniques:",
       },
       {
         type: "list",
         items: [
-          "Testing integration logic before hardware was available",
-          "Comparing planners and control strategies faster than physical reruns",
-          "Collecting structured data for later debugging and evaluation",
+          "Implicit Data-Driven Learning: Diffusion and flow models learn the probability distribution of human demonstrations. In this landscape, obstacles represent high-energy (improbable) states, naturally guiding the model's denoising process toward safe paths around objects.",
+          "Constraint-Guided Diffusion (Control Barrier Functions): For explicit mathematical guarantees, safety gradients are injected directly into each step of the diffusion generation loop. The trajectory is physically nudged away from obstacle boundaries while it is being drawn from noise.",
         ],
       },
       {
-        type: "image",
-        src: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1400&auto=format&fit=crop",
-        alt: "Engineer reviewing simulation workflows on laptop",
-        caption: "Simulation paid off most when it stayed connected to real deployment constraints.",
-      },
-      {
-        type: "heading",
-        text: "The limit",
-      },
-      {
         type: "paragraph",
-        text: "Simulation cannot replace the edge cases that appear on physical systems, but it can dramatically reduce wasted effort before those edge cases become expensive. The best results came when the simulated workflow and the real pipeline stayed structurally similar.",
+        text: "By integrating collision constraints directly into the generative loop of the neural network, modern robotics architectures achieve the best of both worlds: fluid, end-to-end physical control with real-time safety guarantees.",
       },
     ],
   },
+  // {
+  //   id: "what-simulation-saved-me-in-robotics-projects",
+  //   title: "What simulation saved me in robotics projects",
+  //   date: "January 2026",
+  //   cover:
+  //     "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=1400&auto=format&fit=crop",
+  //   coverAlt: "Robotics team working between hardware and simulation",
+  //   excerpt:
+  //     "A short reflection on how Isaac Sim, MuJoCo, and Gazebo reduced physical test time and made system integration less chaotic.",
+  //   body: [
+  //     {
+  //       type: "heading",
+  //       text: "The real value of simulation",
+  //     },
+  //     {
+  //       type: "paragraph",
+  //       text: "Simulation helped most when it was used to answer specific engineering questions: will this planner recover, will this trajectory collide, and will the sensor arrangement even provide the information we think it does?",
+  //     },
+  //     {
+  //       type: "subheading",
+  //       text: "Where it saved time",
+  //     },
+  //     {
+  //       type: "list",
+  //       items: [
+  //         "Testing integration logic before hardware was available",
+  //         "Comparing planners and control strategies faster than physical reruns",
+  //         "Collecting structured data for later debugging and evaluation",
+  //       ],
+  //     },
+  //     {
+  //       type: "image",
+  //       src: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1400&auto=format&fit=crop",
+  //       alt: "Engineer reviewing simulation workflows on laptop",
+  //       caption: "Simulation paid off most when it stayed connected to real deployment constraints.",
+  //     },
+  //     {
+  //       type: "heading",
+  //       text: "The limit",
+  //     },
+  //     {
+  //       type: "paragraph",
+  //       text: "Simulation cannot replace the edge cases that appear on physical systems, but it can dramatically reduce wasted effort before those edge cases become expensive. The best results came when the simulated workflow and the real pipeline stayed structurally similar.",
+  //     },
+  //   ],
+  // },
 ];
