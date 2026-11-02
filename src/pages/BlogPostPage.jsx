@@ -55,6 +55,23 @@ function renderBlock(block, index, postId) {
         </figure>
       );
 
+    case "video":
+      return (
+        <figure key={key} className="my-8 space-y-3">
+          <video
+            controls
+            preload="metadata"
+            poster={block.poster}
+            className="w-full rounded-sm border border-copper-dim/35"
+          >
+            <source src={block.src} type={block.mimeType || "video/mp4"} />
+            Your browser does not support embedded video.
+          </video>
+          {block.caption && <figcaption className="text-sm text-ash/75">{block.caption}</figcaption>}
+        </figure>
+      );
+
+
     case "list":
       return (
         <ul key={key} className="space-y-2 mb-6">
@@ -112,13 +129,25 @@ export default function BlogPostPage() {
           {post.excerpt && <p className="text-ash leading-relaxed">{post.excerpt}</p>}
         </header>
 
-        {post.cover && (
+        {(post.cover || post.coverVideo) && (
           <figure className="mb-10 space-y-3">
-            <img
-              src={post.cover}
-              alt={post.coverAlt || post.title}
-              className="w-full h-auto rounded-sm border border-copper-dim/35"
-            />
+            {post.coverVideo ? (
+              <video
+                controls
+                preload="metadata"
+                poster={post.coverPoster}
+                className="w-full rounded-sm border border-copper-dim/35"
+              >
+                <source src={post.coverVideo} type={post.coverVideoType || "video/mp4"} />
+                Your browser does not support embedded video.
+              </video>
+            ) : (
+              <img
+                src={post.cover}
+                alt={post.coverAlt || post.title}
+                className="w-full h-auto rounded-sm border border-copper-dim/35"
+              />
+            )}
             {post.coverCaption && <figcaption className="text-sm text-ash/75">{post.coverCaption}</figcaption>}
           </figure>
         )}
@@ -128,3 +157,4 @@ export default function BlogPostPage() {
     </article>
   );
 }
+
