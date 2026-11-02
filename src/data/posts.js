@@ -24,15 +24,18 @@
 //
 // See docs/ADDING_CONTENT.md for the same steps with more explanation.
 
+import rtc1 from "../assets/rtc/rtc1.mp4"
+import rtc from "../assets/rtc/rtc.webm"
+
 export const posts = [
   {
     id: "Why are VLA models still predicting positions rather than predicting planned trajectories",
     title: "Why are VLA models still predicting positions rather than predicting planned trajectories",
     date: "23 September 2026",
     cover:
-      "https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=1400&auto=format&fit=crop",
-    coverAlt: "Robotics workstation with sensors and compute hardware",
-    coverCaption: "Evolving from modular classical control stacks to end-to-end continuous trajectory generation.",
+      rtc1,
+    coverAlt: "General case of inference before rtc",
+    coverCaption: "General case of inference before rtc",
     excerpt:
       "A deep dive into why current VLA models still rely on classical motion planners, how diffusion policies and flow matching enable direct joint trajectory output, and how safety is guaranteed without a search planner.",
     body: [
@@ -90,9 +93,9 @@ export const posts = [
       },
       {
         type: "image",
-        src: "https://images.unsplash.com/photo-1563770660941-20978e870e26?q=80&w=1400&auto=format&fit=crop",
-        alt: "Robotics testing setup with instrumentation",
-        caption: "Direct trajectory generation bypasses motion planners by outputting smooth joint sequences straight to motor controllers.",
+        src: rtc,
+        alt: "Working sample ( referencing the work of Physical Intelligence",
+        caption: "Working sample ( referencing the work of Physical Intelligence",
       },
       {
         type: "heading",
