@@ -24,8 +24,9 @@
 //
 // See docs/ADDING_CONTENT.md for the same steps with more explanation.
 
-import rtc1 from "../assets/rtc/rtc1.mp4"
-import rtc from "../assets/rtc/rtc.webm"
+import rtc1 from "../assets/blog_post_1/rtc1.mp4"
+import rtc from "../assets/blog_post_1/rtc.webm"
+import teradyne_work_pai from "../assets/blog_post_1/teradyne_robotics_pai.png"
 
 export const posts = [
   {
@@ -33,7 +34,7 @@ export const posts = [
     title: "Why are VLA models still predicting positions rather than predicting planned trajectories",
     date: "23 September 2026",
     cover:
-      rtc1,
+      teradyne_work_pai,
     coverAlt: "General case of inference before rtc",
     coverCaption: "General case of inference before rtc",
     excerpt:
@@ -92,10 +93,10 @@ export const posts = [
         ],
       },
       {
-        type: "image",
-        src: rtc,
-        alt: "Working sample ( referencing the work of Physical Intelligence",
-        caption: "Working sample ( referencing the work of Physical Intelligence",
+        type: "video", src: rtc1, caption: "General case of Inference before RTC",
+      },
+      {
+        type: "video", src: rtc, caption: "Working sample ( referencing the work of Physical Intelligence )",
       },
       {
         type: "heading",
