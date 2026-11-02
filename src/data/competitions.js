@@ -15,6 +15,58 @@ import robocup1 from "../assets/robocup/bounding_box.jpg";
 import robocup2 from "../assets/robocup/robocup_arm_challenge_scene.png";
 
 export const competitions = [
+    {
+    id: "intrinsic-ai-for-industry-2026",
+    title: "Intrinsic AI for Industry Challenge - 2026",
+    tagline:
+      "Secured 2nd place globally as Team TCS-PLGRM, finishing just over 3 points behind first place in a 5,000-participant challenge.",
+    tags: ["Global Rank #2", "5,000 Participants", "115 Countries"],
+    cover:
+      "https://cdn.prod.website-files.com/660efb77a041930767e2971a/6ab139baada034c97404649e_AIC%20recap%20blog%20hero.png",
+    coverAlt: "AI for Industry Challenge recap visual",
+    description:
+      "An international industrial robotics challenge focused on flexible cable routing and precision connector insertion for electronics assembly in a real UR5e workcell.",
+    highlights: [
+      "Team TCS-PLGRM placed 2nd overall, narrowly missing first by just over 3 points",
+      "Successfully routed and inserted all 5 out of 5 cables in the final taskboard evaluation",
+      "Evaluated by an expert panel including leaders from Intrinsic, NVIDIA, Google DeepMind, Open Robotics, Universal Robots, and Foxconn",
+    ],
+    details: [
+      {
+        heading: "What the challenge was",
+        paragraphs: [
+          "The AI for Industry Challenge asked teams to solve a difficult real-world robotics problem: detect cable connectors, route them across a cluttered taskboard, and insert them into the correct ports with reliable force control. It was designed around an industrially relevant sim-to-real workflow and drew 5,000 participants from 115 countries, with rankings published on the challenge leaderboard and winner recap.",
+        ],
+      },
+      {
+        heading: "Our approach and solution",
+        paragraphs: [
+          "We pursued a two-track strategy. Our primary system was a Narrow Physical AI Pipeline combining multi-view 3D perception with position-based motion and force-based insertion control for robust cable routing and connector seating. In earlier stages, we also developed a Unified Physical AI Pipeline as a fallback path to preserve end-to-end reliability when conditions changed. This architecture helped us complete all 5/5 cable routing and insertion tasks in final evaluation runs.",
+        ],
+      },
+      {
+        heading: "My contributions",
+        paragraphs: [
+          "Owned the simulation data collection pipeline in Isaac Sim and Gazebo, producing the demonstrations used to fine-tune Vision-Language-Action (VLA) models for cable insertion.",
+          "Recreated the Gazebo task scene in Isaac Sim, modified assets and physical properties, built the environment in Isaac Lab, and wrote a ground-truth solver to enable parallel demonstration collection across multiple environments.",
+        ],
+      },
+    ],
+    images: [
+      {
+        src: "https://cdn.prod.website-files.com/660efb77a041930767e2971a/6ab139baada034c97404649e_AIC%20recap%20blog%20hero.png",
+        alt: "Official AI for Industry Challenge recap visual",
+        caption: "Official Intrinsic AI for Industry Challenge recap visual.",
+      },
+      {
+        src: "https://cdn.prod.website-files.com/660efb77a041930767e2971a/6ab16c903169a8399fe7e43b_7c54dedf.png",
+        alt: "AI for Industry Challenge article visual",
+        caption: "Challenge recap image associated with the published leaderboard and final standings.",
+      },
+    ],
+    link: "https://www.intrinsic.ai/blog/posts/ai-for-industry-challenge",
+  },
+  
   {
     id: "robocup-arm-challenge-2024",
     title: "RoboCup Arm Challenge - 2024",
