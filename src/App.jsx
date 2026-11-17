@@ -6,10 +6,12 @@ import ProjectsPage from "./pages/ProjectsPage";
 import CompetitionsPage from "./pages/CompetitionsPage";
 import BlogsPage from "./pages/BlogsPage";
 import BlogPostPage from "./pages/BlogPostPage";
+import { Analytics } from '@vercel/analytics/next';
 
 export default function App() {
   return (
     <div className="font-body">
+      <Analytics />
       <ScrollToTop />
       <Nav />
       <Routes>
